@@ -9,38 +9,186 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as RecentRouteImport } from './routes/recent'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CategoryCategoryRouteImport } from './routes/category.$category'
+import { Route as ApiStreamsRouteImport } from './routes/api/streams'
+import { Route as ApiCategoriesRouteImport } from './routes/api/categories'
+import { Route as LiveCategoryStreamKeyRouteImport } from './routes/live.$category.$streamKey'
+import { Route as ApiStreamsKeyRouteImport } from './routes/api/streams.$key'
 
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecentRoute = RecentRouteImport.update({
+  id: '/recent',
+  path: '/recent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrowseRoute = BrowseRouteImport.update({
+  id: '/browse',
+  path: '/browse',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategoryCategoryRoute = CategoryCategoryRouteImport.update({
+  id: '/category/$category',
+  path: '/category/$category',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStreamsRoute = ApiStreamsRouteImport.update({
+  id: '/api/streams',
+  path: '/api/streams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCategoriesRoute = ApiCategoriesRouteImport.update({
+  id: '/api/categories',
+  path: '/api/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LiveCategoryStreamKeyRoute = LiveCategoryStreamKeyRouteImport.update({
+  id: '/live/$category/$streamKey',
+  path: '/live/$category/$streamKey',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStreamsKeyRoute = ApiStreamsKeyRouteImport.update({
+  id: '/$key',
+  path: '/$key',
+  getParentRoute: () => ApiStreamsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/browse': typeof BrowseRoute
+  '/favorites': typeof FavoritesRoute
+  '/recent': typeof RecentRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/categories': typeof ApiCategoriesRoute
+  '/api/streams': typeof ApiStreamsRouteWithChildren
+  '/category/$category': typeof CategoryCategoryRoute
+  '/api/streams/$key': typeof ApiStreamsKeyRoute
+  '/live/$category/$streamKey': typeof LiveCategoryStreamKeyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/browse': typeof BrowseRoute
+  '/favorites': typeof FavoritesRoute
+  '/recent': typeof RecentRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/categories': typeof ApiCategoriesRoute
+  '/api/streams': typeof ApiStreamsRouteWithChildren
+  '/category/$category': typeof CategoryCategoryRoute
+  '/api/streams/$key': typeof ApiStreamsKeyRoute
+  '/live/$category/$streamKey': typeof LiveCategoryStreamKeyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/browse': typeof BrowseRoute
+  '/favorites': typeof FavoritesRoute
+  '/recent': typeof RecentRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/api/categories': typeof ApiCategoriesRoute
+  '/api/streams': typeof ApiStreamsRouteWithChildren
+  '/category/$category': typeof CategoryCategoryRoute
+  '/api/streams/$key': typeof ApiStreamsKeyRoute
+  '/live/$category/$streamKey': typeof LiveCategoryStreamKeyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/browse'
+    | '/favorites'
+    | '/recent'
+    | '/sitemap.xml'
+    | '/api/categories'
+    | '/api/streams'
+    | '/category/$category'
+    | '/api/streams/$key'
+    | '/live/$category/$streamKey'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/browse'
+    | '/favorites'
+    | '/recent'
+    | '/sitemap.xml'
+    | '/api/categories'
+    | '/api/streams'
+    | '/category/$category'
+    | '/api/streams/$key'
+    | '/live/$category/$streamKey'
+  id:
+    | '__root__'
+    | '/'
+    | '/browse'
+    | '/favorites'
+    | '/recent'
+    | '/sitemap.xml'
+    | '/api/categories'
+    | '/api/streams'
+    | '/category/$category'
+    | '/api/streams/$key'
+    | '/live/$category/$streamKey'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BrowseRoute: typeof BrowseRoute
+  FavoritesRoute: typeof FavoritesRoute
+  RecentRoute: typeof RecentRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  ApiCategoriesRoute: typeof ApiCategoriesRoute
+  ApiStreamsRoute: typeof ApiStreamsRouteWithChildren
+  CategoryCategoryRoute: typeof CategoryCategoryRoute
+  LiveCategoryStreamKeyRoute: typeof LiveCategoryStreamKeyRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recent': {
+      id: '/recent'
+      path: '/recent'
+      fullPath: '/recent'
+      preLoaderRoute: typeof RecentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/browse': {
+      id: '/browse'
+      path: '/browse'
+      fullPath: '/browse'
+      preLoaderRoute: typeof BrowseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +196,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/category/$category': {
+      id: '/category/$category'
+      path: '/category/$category'
+      fullPath: '/category/$category'
+      preLoaderRoute: typeof CategoryCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/streams': {
+      id: '/api/streams'
+      path: '/api/streams'
+      fullPath: '/api/streams'
+      preLoaderRoute: typeof ApiStreamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/categories': {
+      id: '/api/categories'
+      path: '/api/categories'
+      fullPath: '/api/categories'
+      preLoaderRoute: typeof ApiCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/live/$category/$streamKey': {
+      id: '/live/$category/$streamKey'
+      path: '/live/$category/$streamKey'
+      fullPath: '/live/$category/$streamKey'
+      preLoaderRoute: typeof LiveCategoryStreamKeyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/streams/$key': {
+      id: '/api/streams/$key'
+      path: '/$key'
+      fullPath: '/api/streams/$key'
+      preLoaderRoute: typeof ApiStreamsKeyRouteImport
+      parentRoute: typeof ApiStreamsRoute
+    }
   }
 }
 
+interface ApiStreamsRouteChildren {
+  ApiStreamsKeyRoute: typeof ApiStreamsKeyRoute
+}
+
+const ApiStreamsRouteChildren: ApiStreamsRouteChildren = {
+  ApiStreamsKeyRoute: ApiStreamsKeyRoute,
+}
+
+const ApiStreamsRouteWithChildren = ApiStreamsRoute._addFileChildren(
+  ApiStreamsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BrowseRoute: BrowseRoute,
+  FavoritesRoute: FavoritesRoute,
+  RecentRoute: RecentRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
+  ApiCategoriesRoute: ApiCategoriesRoute,
+  ApiStreamsRoute: ApiStreamsRouteWithChildren,
+  CategoryCategoryRoute: CategoryCategoryRoute,
+  LiveCategoryStreamKeyRoute: LiveCategoryStreamKeyRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
