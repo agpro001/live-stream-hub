@@ -65,7 +65,7 @@ function BrowsePage() {
   }, [streams, filters.q, filters.live, filters.today, filters.cat, now]);
 
   const toggle = (key: "live" | "today") => {
-    nav({ search: (prev) => ({ ...prev, [key]: prev[key] ? undefined : true }) });
+    nav({ search: (prev: z.infer<typeof searchSchema>) => ({ ...prev, [key]: prev[key] ? undefined : true }) });
   };
 
   return (
@@ -84,7 +84,7 @@ function BrowsePage() {
             value={localQ}
             onChange={(e) => {
               setLocalQ(e.target.value);
-              nav({ search: (prev) => ({ ...prev, q: e.target.value || undefined }) });
+              nav({ search: (prev: z.infer<typeof searchSchema>) => ({ ...prev, q: e.target.value || undefined }) });
             }}
             placeholder="Search team, league or sport…"
             className="min-w-[260px] flex-1 rounded-full border border-border bg-secondary/40 px-4 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
