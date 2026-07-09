@@ -87,13 +87,13 @@ export function Player({ stream }: { stream: Stream }) {
 
       <div className="relative w-full overflow-hidden rounded-2xl border border-border bg-black shadow-2xl">
         <div className="aspect-video w-full">
+          {/* Provider requires an un-sandboxed embed per StreamFree docs. */}
           <iframe
             ref={iframeRef}
             src={stream.embed_url}
             title={stream.name}
             allow="fullscreen; picture-in-picture; autoplay; encrypted-media"
             allowFullScreen
-            sandbox="allow-same-origin allow-scripts allow-forms allow-presentation allow-orientation-lock"
             referrerPolicy="no-referrer"
             className="h-full w-full border-0"
           />
