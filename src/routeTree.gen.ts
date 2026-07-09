@@ -10,33 +10,67 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ApiStreamsRouteImport } from './routes/api/streams'
+import { Route as ApiCategoriesRouteImport } from './routes/api/categories'
+import { Route as ApiStreamsKeyRouteImport } from './routes/api/streams.$key'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiStreamsRoute = ApiStreamsRouteImport.update({
+  id: '/api/streams',
+  path: '/api/streams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCategoriesRoute = ApiCategoriesRouteImport.update({
+  id: '/api/categories',
+  path: '/api/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStreamsKeyRoute = ApiStreamsKeyRouteImport.update({
+  id: '/$key',
+  path: '/$key',
+  getParentRoute: () => ApiStreamsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/api/categories': typeof ApiCategoriesRoute
+  '/api/streams': typeof ApiStreamsRouteWithChildren
+  '/api/streams/$key': typeof ApiStreamsKeyRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/api/categories': typeof ApiCategoriesRoute
+  '/api/streams': typeof ApiStreamsRouteWithChildren
+  '/api/streams/$key': typeof ApiStreamsKeyRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/api/categories': typeof ApiCategoriesRoute
+  '/api/streams': typeof ApiStreamsRouteWithChildren
+  '/api/streams/$key': typeof ApiStreamsKeyRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/api/categories' | '/api/streams' | '/api/streams/$key'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/api/categories' | '/api/streams' | '/api/streams/$key'
+  id:
+    | '__root__'
+    | '/'
+    | '/api/categories'
+    | '/api/streams'
+    | '/api/streams/$key'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ApiCategoriesRoute: typeof ApiCategoriesRoute
+  ApiStreamsRoute: typeof ApiStreamsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +82,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/streams': {
+      id: '/api/streams'
+      path: '/api/streams'
+      fullPath: '/api/streams'
+      preLoaderRoute: typeof ApiStreamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/categories': {
+      id: '/api/categories'
+      path: '/api/categories'
+      fullPath: '/api/categories'
+      preLoaderRoute: typeof ApiCategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/streams/$key': {
+      id: '/api/streams/$key'
+      path: '/$key'
+      fullPath: '/api/streams/$key'
+      preLoaderRoute: typeof ApiStreamsKeyRouteImport
+      parentRoute: typeof ApiStreamsRoute
+    }
   }
 }
 
+interface ApiStreamsRouteChildren {
+  ApiStreamsKeyRoute: typeof ApiStreamsKeyRoute
+}
+
+const ApiStreamsRouteChildren: ApiStreamsRouteChildren = {
+  ApiStreamsKeyRoute: ApiStreamsKeyRoute,
+}
+
+const ApiStreamsRouteWithChildren = ApiStreamsRoute._addFileChildren(
+  ApiStreamsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ApiCategoriesRoute: ApiCategoriesRoute,
+  ApiStreamsRoute: ApiStreamsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
