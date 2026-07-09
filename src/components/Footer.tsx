@@ -1,0 +1,50 @@
+import { Link } from "@tanstack/react-router";
+import { Radio } from "lucide-react";
+
+export function Footer() {
+  return (
+    <footer className="mt-24 border-t border-border">
+      <div className="mx-auto grid max-w-7xl gap-8 px-4 py-12 sm:px-6 md:grid-cols-4">
+        <div>
+          <div className="flex items-center gap-2 font-display text-lg font-bold">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[color:var(--color-brand)] to-[color:var(--color-brand-2)]">
+              <Radio className="h-4 w-4 text-black" aria-hidden />
+            </span>
+            Stream<span className="text-gradient">Hub</span>
+          </div>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Where every match comes alive. Live sports, cinematic experience.
+          </p>
+        </div>
+        <div>
+          <h3 className="mb-3 text-sm font-semibold">Explore</h3>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/" className="hover:text-foreground">Home</Link></li>
+            <li><Link to="/browse" className="hover:text-foreground">Browse</Link></li>
+            <li><Link to="/favorites" className="hover:text-foreground">Favorites</Link></li>
+            <li><Link to="/recent" className="hover:text-foreground">Recent</Link></li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="mb-3 text-sm font-semibold">Sports</h3>
+          <ul className="space-y-2 text-sm text-muted-foreground">
+            <li><Link to="/category/$category" params={{ category: "soccer" }} className="hover:text-foreground">Soccer</Link></li>
+            <li><Link to="/category/$category" params={{ category: "basketball" }} className="hover:text-foreground">Basketball</Link></li>
+            <li><Link to="/category/$category" params={{ category: "tennis" }} className="hover:text-foreground">Tennis</Link></li>
+            <li><Link to="/category/$category" params={{ category: "cricket" }} className="hover:text-foreground">Cricket</Link></li>
+          </ul>
+        </div>
+        <div>
+          <h3 className="mb-3 text-sm font-semibold">Info</h3>
+          <p className="text-sm text-muted-foreground">
+            StreamHub aggregates publicly available streams via the StreamFree
+            API. Streams belong to their respective providers.
+          </p>
+        </div>
+      </div>
+      <div className="border-t border-border py-5 text-center text-xs text-muted-foreground">
+        © {new Date().getFullYear()} StreamHub · Made with Framer Motion & TanStack Start
+      </div>
+    </footer>
+  );
+}
