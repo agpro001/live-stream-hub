@@ -56,11 +56,11 @@ export function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-2xl bg-background/60 border-b border-border">
+    <header className="sticky top-0 z-40 backdrop-blur-2xl bg-background/50 border-b border-white/10">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-4 px-4 sm:px-6">
         <Link to="/" className="flex items-center gap-2 font-display text-lg font-bold">
-          <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[color:var(--color-brand)] to-[color:var(--color-brand-2)] shadow-[0_0_24px_color-mix(in_oklab,var(--color-brand)_50%,transparent)]">
-            <Radio className="h-4 w-4 text-black" aria-hidden />
+          <span className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-[color:var(--color-brand)] text-black shadow-[0_0_24px_color-mix(in_oklab,var(--color-brand)_60%,transparent)]">
+            <Radio className="h-4 w-4" aria-hidden />
           </span>
           <span>Stream<span className="text-gradient">Hub</span></span>
         </Link>

@@ -5,22 +5,46 @@ import { categoryMeta, streamStatus, type Stream } from "@/lib/streamfree";
 import { formatKickoff, relativeTime } from "@/lib/format";
 import { FavoriteButton } from "@/components/FavoriteButton";
 import { useRM } from "@/hooks/useReducedMotionSafe";
+import { useTilt } from "@/hooks/useTilt";
 
 export function StreamCard({ stream, priority = false }: { stream: Stream; priority?: boolean }) {
   const meta = categoryMeta(stream.category);
   const status = streamStatus(stream);
   const rm = useRM();
+  const tilt = useTilt(8);
 
   return (
     <motion.article
+      ref={tilt.ref}
+      onPointerMove={rm ? undefined : tilt.onMove}
+      onPointerLeave={rm ? undefined : tilt.onLeave}
+      style={rm ? undefined : { rotateX: tilt.rotateX, rotateY: tilt.rotateY, transformPerspective: 900 }}
       whileHover={rm ? undefined : { y: -4 }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-40px" }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
-      className="group relative overflow-hidden rounded-2xl border border-border bg-card/80 shadow-lg shadow-black/20 backdrop-blur"
+      className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.03] shadow-[0_20px_60px_-20px_rgba(0,0,0,0.6)] backdrop-blur-xl transition-colors hover:border-[color:var(--color-brand)]/40 hover:shadow-[0_0_40px_-10px_color-mix(in_oklab,var(--color-brand)_40%,transparent)]"
     >
+      {!rm && (
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 z-10 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+          style={{
+            background: `radial-gradient(320px circle at var(--gx,50%) var(--gy,30%), color-mix(in oklab, var(--color-brand) 22%, transparent), transparent 60%)`,
+          }}
+        />
+      )}
       <Link
         to="/live/$category/$streamKey"
         params={{ category: stream.category, streamKey: stream.stream_key }}
         className="block"
+        onPointerMove={(e) => {
+          const el = e.currentTarget as HTMLElement;
+          const r = el.getBoundingClientRect();
+          el.style.setProperty("--gx", `${e.clientX - r.left}px`);
+          el.style.setProperty("--gy", `${e.clientY - r.top}px`);
+        }}
       >
         <div className="relative aspect-video overflow-hidden bg-gradient-to-br from-black/60 to-black/20">
           {stream.thumbnail_url ? (

@@ -37,13 +37,18 @@ export function Footer() {
         <div>
           <h3 className="mb-3 text-sm font-semibold">Info</h3>
           <p className="text-sm text-muted-foreground">
-            StreamHub aggregates publicly available streams via the StreamFree
-            API. Streams belong to their respective providers.
+            StreamHub aggregates publicly available live matches. All broadcasts belong
+            to their respective rights holders.
           </p>
         </div>
       </div>
-      <div className="border-t border-border py-5 text-center text-xs text-muted-foreground">
-        © {new Date().getFullYear()} StreamHub · Made with Framer Motion & TanStack Start
+      <div className="border-t border-border py-6 text-center">
+        <div className="font-mono-tag text-white/50">
+          © {new Date().getFullYear()} STREAMHUB · ALL SIGNALS RESERVED
+        </div>
+        <div className="mt-2 font-display italic text-sm text-white/70">
+          Made by <span className="text-gradient font-semibold not-italic">Aditya</span> in motion graphics
+        </div>
       </div>
     </footer>
   );
