@@ -1,19 +1,23 @@
 import { useRef } from "react";
 import { useMotionValue, useSpring, useTransform } from "framer-motion";
+import { useIsMobile } from "./useIsMobile";
 
 /** 3D tilt driven by pointer position over the element. */
 export function useTilt(max = 10) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const isMobile = useIsMobile();
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 20, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 200, damping: 20, mass: 0.4 });
-  const rotateY = useTransform(sx, [-0.5, 0.5], [-max, max]);
-  const rotateX = useTransform(sy, [-0.5, 0.5], [max, -max]);
+  const sx = useSpring(x, { stiffness: 180, damping: 22, mass: 0.4 });
+  const sy = useSpring(y, { stiffness: 180, damping: 22, mass: 0.4 });
+  const eff = isMobile ? 0 : max;
+  const rotateY = useTransform(sx, [-0.5, 0.5], [-eff, eff]);
+  const rotateX = useTransform(sy, [-0.5, 0.5], [eff, -eff]);
   const glareX = useTransform(sx, [-0.5, 0.5], ["0%", "100%"]);
   const glareY = useTransform(sy, [-0.5, 0.5], ["0%", "100%"]);
 
   const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (isMobile) return; // skip work on touch devices
     const el = ref.current; if (!el) return;
     const r = el.getBoundingClientRect();
     x.set((e.clientX - r.left) / r.width - 0.5);

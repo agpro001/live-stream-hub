@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RecentRouteImport } from './routes/recent'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as MoviesRouteImport } from './routes/movies'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +31,16 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RecentRoute = RecentRouteImport.update({
   id: '/recent',
   path: '/recent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MoviesRoute = MoviesRouteImport.update({
+  id: '/movies',
+  path: '/movies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FavoritesRoute = FavoritesRouteImport.update({
@@ -81,6 +93,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
   '/favorites': typeof FavoritesRoute
+  '/movies': typeof MoviesRoute
+  '/profile': typeof ProfileRoute
   '/recent': typeof RecentRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/categories': typeof ApiCategoriesRoute
@@ -94,6 +108,8 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
   '/favorites': typeof FavoritesRoute
+  '/movies': typeof MoviesRoute
+  '/profile': typeof ProfileRoute
   '/recent': typeof RecentRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/categories': typeof ApiCategoriesRoute
@@ -108,6 +124,8 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
   '/favorites': typeof FavoritesRoute
+  '/movies': typeof MoviesRoute
+  '/profile': typeof ProfileRoute
   '/recent': typeof RecentRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/categories': typeof ApiCategoriesRoute
@@ -123,6 +141,8 @@ export interface FileRouteTypes {
     | '/'
     | '/browse'
     | '/favorites'
+    | '/movies'
+    | '/profile'
     | '/recent'
     | '/sitemap.xml'
     | '/api/categories'
@@ -136,6 +156,8 @@ export interface FileRouteTypes {
     | '/'
     | '/browse'
     | '/favorites'
+    | '/movies'
+    | '/profile'
     | '/recent'
     | '/sitemap.xml'
     | '/api/categories'
@@ -149,6 +171,8 @@ export interface FileRouteTypes {
     | '/'
     | '/browse'
     | '/favorites'
+    | '/movies'
+    | '/profile'
     | '/recent'
     | '/sitemap.xml'
     | '/api/categories'
@@ -163,6 +187,8 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrowseRoute: typeof BrowseRoute
   FavoritesRoute: typeof FavoritesRoute
+  MoviesRoute: typeof MoviesRoute
+  ProfileRoute: typeof ProfileRoute
   RecentRoute: typeof RecentRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiCategoriesRoute: typeof ApiCategoriesRoute
@@ -186,6 +212,20 @@ declare module '@tanstack/react-router' {
       path: '/recent'
       fullPath: '/recent'
       preLoaderRoute: typeof RecentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/movies': {
+      id: '/movies'
+      path: '/movies'
+      fullPath: '/movies'
+      preLoaderRoute: typeof MoviesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/favorites': {
@@ -270,6 +310,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrowseRoute: BrowseRoute,
   FavoritesRoute: FavoritesRoute,
+  MoviesRoute: MoviesRoute,
+  ProfileRoute: ProfileRoute,
   RecentRoute: RecentRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiCategoriesRoute: ApiCategoriesRoute,
