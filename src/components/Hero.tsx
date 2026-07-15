@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { PlayCircle, Compass } from "lucide-react";
 import { useRM } from "@/hooks/useReducedMotionSafe";
@@ -6,6 +7,44 @@ import { InteractiveWavesBackground } from "@/components/InteractiveWavesBackgro
 
 export function Hero({ liveCount = 0 }: { liveCount?: number }) {
   const rm = useRM();
+  const sectionRef = useRef<HTMLElement>(null);
+
+  // GSAP timeline: orchestrates hero reveal + broadcasts a --wave-intensity
+  // signal for the background & downstream stream-card scroll reveals.
+  useEffect(() => {
+    if (rm || typeof window === "undefined") return;
+    let cancelled = false;
+    (async () => {
+      const { gsap } = await import("gsap");
+      if (cancelled) return;
+      const root = sectionRef.current;
+      if (!root) return;
+      const intensity = { v: 0.4 };
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.to(intensity, {
+        v: 1,
+        duration: 1.6,
+        onUpdate: () => root.style.setProperty("--wave-intensity", String(intensity.v)),
+      })
+        .fromTo(
+          root.querySelectorAll("[data-hero-stagger]"),
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, stagger: 0.12, duration: 0.9 },
+          "-=1.2",
+        );
+
+      // Scroll-triggered scene transition: dim the waves as user scrolls past.
+      const onScroll = () => {
+        const rect = root.getBoundingClientRect();
+        const t = Math.max(0, Math.min(1, 1 - (rect.bottom / window.innerHeight)));
+        root.style.setProperty("--wave-intensity", String(1 - t * 0.85));
+      };
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => window.removeEventListener("scroll", onScroll);
+    })();
+    return () => { cancelled = true; };
+  }, [rm]);
+
   const container = {
     hidden: {},
     show: { transition: { staggerChildren: rm ? 0 : 0.1, delayChildren: 0.1 } },
@@ -21,8 +60,9 @@ export function Hero({ liveCount = 0 }: { liveCount?: number }) {
   const headline = "Cinematic live sports.";
 
   return (
-    <section className="relative overflow-hidden ambient-bg grid-bg noise-overlay">
+    <section ref={sectionRef} className="relative overflow-hidden ambient-bg grid-bg noise-overlay [--wave-intensity:1]">
       {!rm && (
+        <div style={{ opacity: "var(--wave-intensity, 1)" }} className="absolute inset-0">
         <InteractiveWavesBackground
           lineColor="rgba(204,255,0,0.18)"
           waveSpeedX={0.018}
@@ -32,6 +72,7 @@ export function Hero({ liveCount = 0 }: { liveCount?: number }) {
           xGap={14}
           yGap={42}
         />
+        </div>
       )}
       {!rm && (
         <>

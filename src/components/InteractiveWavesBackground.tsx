@@ -82,7 +82,19 @@ export const InteractiveWavesBackground: React.FC<WavesProps> = ({
     const canvas = canvasRef.current; const container = containerRef.current;
     if (!canvas || !container) return;
     ctxRef.current = canvas.getContext('2d');
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+    const isNarrow = window.matchMedia('(max-width: 768px)').matches;
+    const isMobile = isCoarse || isNarrow;
+    // Cap DPR aggressively on mobile — the biggest FPS win.
+    const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1 : 2);
+    // Target ~30fps on mobile, ~60fps on desktop.
+    const frameGap = isMobile ? 1000 / 30 : 0;
+    let lastFrame = 0;
+    // Widen the grid on mobile so we draw far fewer segments.
+    if (isMobile) {
+      cfgRef.current.xGap = Math.max(cfgRef.current.xGap * 1.8, 22);
+      cfgRef.current.yGap = Math.max(cfgRef.current.yGap * 1.5, 56);
+    }
 
     function setSize() {
       const rect = container!.getBoundingClientRect();
@@ -144,6 +156,11 @@ export const InteractiveWavesBackground: React.FC<WavesProps> = ({
       ctx.stroke();
     }
     function tick(t: number) {
+      if (frameGap && t - lastFrame < frameGap) {
+        frameRef.current = requestAnimationFrame(tick);
+        return;
+      }
+      lastFrame = t;
       const mouse = mouseRef.current;
       mouse.sx += (mouse.x - mouse.sx) * 0.1; mouse.sy += (mouse.y - mouse.sy) * 0.1;
       const dx = mouse.x - mouse.lx, dy = mouse.y - mouse.ly; const d = Math.hypot(dx, dy);
@@ -160,17 +177,14 @@ export const InteractiveWavesBackground: React.FC<WavesProps> = ({
     }
     const onResize = () => { setSize(); setLines(); };
     const onMouse = (e: MouseEvent) => updateMouse(e.clientX, e.clientY);
-    const onTouch = (e: TouchEvent) => { const t = e.touches[0]; if (t) updateMouse(t.clientX, t.clientY); };
 
     setSize(); setLines();
     frameRef.current = requestAnimationFrame(tick);
     window.addEventListener('resize', onResize);
-    window.addEventListener('mousemove', onMouse);
-    window.addEventListener('touchmove', onTouch, { passive: true });
+    if (!isMobile) window.addEventListener('mousemove', onMouse);
     return () => {
       window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', onMouse);
-      window.removeEventListener('touchmove', onTouch);
+      if (!isMobile) window.removeEventListener('mousemove', onMouse);
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
     };
   }, []);
