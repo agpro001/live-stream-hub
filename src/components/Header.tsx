@@ -1,5 +1,5 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
-import { Search, Heart, History, Radio, Sun, Moon } from "lucide-react";
+import { Search, Heart, History, Radio, Sun, Moon, Film, UserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -68,8 +68,10 @@ export function Header() {
         <nav className="ml-6 hidden items-center gap-6 md:flex" aria-label="Primary">
           {navItem("/", "Home")}
           {navItem("/browse", "Browse")}
+          {navItem("/movies", "Movies")}
           {navItem("/favorites", "Favorites")}
           {navItem("/recent", "Recent")}
+          {navItem("/profile", "Profile")}
         </nav>
 
         <form onSubmit={onSubmit} role="search" className="ml-auto flex-1 max-w-md">
@@ -88,6 +90,20 @@ export function Header() {
         </form>
 
         <div className="flex items-center gap-1">
+          <Link
+            to="/movies"
+            aria-label="Movies & shows"
+            className="hidden rounded-full p-2 text-muted-foreground hover:bg-secondary hover:text-foreground md:inline-flex"
+          >
+            <Film className="h-4 w-4" />
+          </Link>
+          <Link
+            to="/profile"
+            aria-label="Profile"
+            className="rounded-full p-2 text-muted-foreground hover:bg-secondary hover:text-foreground"
+          >
+            <UserRound className="h-4 w-4" />
+          </Link>
           <Link
             to="/favorites"
             aria-label="Favorites"

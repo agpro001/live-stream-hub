@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RecentRouteImport } from './routes/recent'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as MoviesRouteImport } from './routes/movies'
 import { Route as FavoritesRouteImport } from './routes/favorites'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
@@ -19,6 +21,7 @@ import { Route as ApiStreamsRouteImport } from './routes/api/streams'
 import { Route as ApiCategoriesRouteImport } from './routes/api/categories'
 import { Route as LiveCategoryStreamKeyRouteImport } from './routes/live.$category.$streamKey'
 import { Route as ApiStreamsKeyRouteImport } from './routes/api/streams.$key'
+import { Route as ApiNetmirrorPreviewRouteImport } from './routes/api/netmirror.preview'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -28,6 +31,16 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const RecentRoute = RecentRouteImport.update({
   id: '/recent',
   path: '/recent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MoviesRoute = MoviesRouteImport.update({
+  id: '/movies',
+  path: '/movies',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FavoritesRoute = FavoritesRouteImport.update({
@@ -70,16 +83,24 @@ const ApiStreamsKeyRoute = ApiStreamsKeyRouteImport.update({
   path: '/$key',
   getParentRoute: () => ApiStreamsRoute,
 } as any)
+const ApiNetmirrorPreviewRoute = ApiNetmirrorPreviewRouteImport.update({
+  id: '/api/netmirror/preview',
+  path: '/api/netmirror/preview',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
   '/favorites': typeof FavoritesRoute
+  '/movies': typeof MoviesRoute
+  '/profile': typeof ProfileRoute
   '/recent': typeof RecentRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/categories': typeof ApiCategoriesRoute
   '/api/streams': typeof ApiStreamsRouteWithChildren
   '/category/$category': typeof CategoryCategoryRoute
+  '/api/netmirror/preview': typeof ApiNetmirrorPreviewRoute
   '/api/streams/$key': typeof ApiStreamsKeyRoute
   '/live/$category/$streamKey': typeof LiveCategoryStreamKeyRoute
 }
@@ -87,11 +108,14 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
   '/favorites': typeof FavoritesRoute
+  '/movies': typeof MoviesRoute
+  '/profile': typeof ProfileRoute
   '/recent': typeof RecentRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/categories': typeof ApiCategoriesRoute
   '/api/streams': typeof ApiStreamsRouteWithChildren
   '/category/$category': typeof CategoryCategoryRoute
+  '/api/netmirror/preview': typeof ApiNetmirrorPreviewRoute
   '/api/streams/$key': typeof ApiStreamsKeyRoute
   '/live/$category/$streamKey': typeof LiveCategoryStreamKeyRoute
 }
@@ -100,11 +124,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
   '/favorites': typeof FavoritesRoute
+  '/movies': typeof MoviesRoute
+  '/profile': typeof ProfileRoute
   '/recent': typeof RecentRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/categories': typeof ApiCategoriesRoute
   '/api/streams': typeof ApiStreamsRouteWithChildren
   '/category/$category': typeof CategoryCategoryRoute
+  '/api/netmirror/preview': typeof ApiNetmirrorPreviewRoute
   '/api/streams/$key': typeof ApiStreamsKeyRoute
   '/live/$category/$streamKey': typeof LiveCategoryStreamKeyRoute
 }
@@ -114,11 +141,14 @@ export interface FileRouteTypes {
     | '/'
     | '/browse'
     | '/favorites'
+    | '/movies'
+    | '/profile'
     | '/recent'
     | '/sitemap.xml'
     | '/api/categories'
     | '/api/streams'
     | '/category/$category'
+    | '/api/netmirror/preview'
     | '/api/streams/$key'
     | '/live/$category/$streamKey'
   fileRoutesByTo: FileRoutesByTo
@@ -126,11 +156,14 @@ export interface FileRouteTypes {
     | '/'
     | '/browse'
     | '/favorites'
+    | '/movies'
+    | '/profile'
     | '/recent'
     | '/sitemap.xml'
     | '/api/categories'
     | '/api/streams'
     | '/category/$category'
+    | '/api/netmirror/preview'
     | '/api/streams/$key'
     | '/live/$category/$streamKey'
   id:
@@ -138,11 +171,14 @@ export interface FileRouteTypes {
     | '/'
     | '/browse'
     | '/favorites'
+    | '/movies'
+    | '/profile'
     | '/recent'
     | '/sitemap.xml'
     | '/api/categories'
     | '/api/streams'
     | '/category/$category'
+    | '/api/netmirror/preview'
     | '/api/streams/$key'
     | '/live/$category/$streamKey'
   fileRoutesById: FileRoutesById
@@ -151,11 +187,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrowseRoute: typeof BrowseRoute
   FavoritesRoute: typeof FavoritesRoute
+  MoviesRoute: typeof MoviesRoute
+  ProfileRoute: typeof ProfileRoute
   RecentRoute: typeof RecentRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiCategoriesRoute: typeof ApiCategoriesRoute
   ApiStreamsRoute: typeof ApiStreamsRouteWithChildren
   CategoryCategoryRoute: typeof CategoryCategoryRoute
+  ApiNetmirrorPreviewRoute: typeof ApiNetmirrorPreviewRoute
   LiveCategoryStreamKeyRoute: typeof LiveCategoryStreamKeyRoute
 }
 
@@ -173,6 +212,20 @@ declare module '@tanstack/react-router' {
       path: '/recent'
       fullPath: '/recent'
       preLoaderRoute: typeof RecentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/movies': {
+      id: '/movies'
+      path: '/movies'
+      fullPath: '/movies'
+      preLoaderRoute: typeof MoviesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/favorites': {
@@ -231,6 +284,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiStreamsKeyRouteImport
       parentRoute: typeof ApiStreamsRoute
     }
+    '/api/netmirror/preview': {
+      id: '/api/netmirror/preview'
+      path: '/api/netmirror/preview'
+      fullPath: '/api/netmirror/preview'
+      preLoaderRoute: typeof ApiNetmirrorPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -250,11 +310,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrowseRoute: BrowseRoute,
   FavoritesRoute: FavoritesRoute,
+  MoviesRoute: MoviesRoute,
+  ProfileRoute: ProfileRoute,
   RecentRoute: RecentRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiCategoriesRoute: ApiCategoriesRoute,
   ApiStreamsRoute: ApiStreamsRouteWithChildren,
   CategoryCategoryRoute: CategoryCategoryRoute,
+  ApiNetmirrorPreviewRoute: ApiNetmirrorPreviewRoute,
   LiveCategoryStreamKeyRoute: LiveCategoryStreamKeyRoute,
 }
 export const routeTree = rootRouteImport

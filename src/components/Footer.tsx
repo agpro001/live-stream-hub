@@ -49,6 +49,11 @@ export function Footer() {
         <div className="mt-2 font-display italic text-sm text-white/70">
           Made by <span className="text-gradient font-semibold not-italic">Aditya</span> in motion graphics
         </div>
+        <div className="mx-auto mt-4 max-w-3xl px-4 text-[11px] leading-relaxed text-white/45">
+          Disclaimer: All videos, movies and streams displayed on StreamHub are provided by
+          third-party websites. We do not host, upload or stream any content ourselves; all
+          media is played from its original external source.
+        </div>
       </div>
     </footer>
   );

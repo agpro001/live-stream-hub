@@ -6,10 +6,12 @@ import { categoryMeta } from "@/lib/streamfree";
 import { formatKickoff } from "@/lib/format";
 import { useFavorites } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
+import { CinematicLoader } from "@/components/CinematicLoader";
 
 export function Player({ stream }: { stream: Stream }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [copied, setCopied] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const { has, toggle, hydrated } = useFavorites();
   const meta = categoryMeta(stream.category);
   const fav = hydrated && has(stream.stream_key);
@@ -87,11 +89,17 @@ export function Player({ stream }: { stream: Stream }) {
 
       <div className="relative w-full overflow-hidden rounded-2xl border border-border bg-black shadow-2xl">
         <div className="aspect-video w-full">
+          {!loaded && (
+            <div className="absolute inset-0 z-10">
+              <CinematicLoader label="Buffering signal" />
+            </div>
+          )}
           {/* Provider requires an un-sandboxed embed per StreamFree docs. */}
           <iframe
             ref={iframeRef}
             src={stream.embed_url}
             title={stream.name}
+            onLoad={() => setLoaded(true)}
             allow="fullscreen; picture-in-picture; autoplay; encrypted-media"
             allowFullScreen
             referrerPolicy="no-referrer"
