@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { fetchCached } from "@/lib/streamfree.server";
+import { getLinearChannel } from "@/lib/channels.server";
 
 const FORBIDDEN = /[/\\?#%&=\s]|\.\./;
 const CONTROL_CHARS = /[\u0000-\u001f\u007f]/;
@@ -18,6 +19,16 @@ export const Route = createFileRoute("/api/streams/$key")({
           return new Response(JSON.stringify({ error: "invalid_key" }), {
             status: 400,
             headers: { "Content-Type": "application/json" },
+          });
+        }
+        const channel = getLinearChannel(key);
+        if (channel) {
+          return new Response(JSON.stringify(channel), {
+            status: 200,
+            headers: {
+              "Content-Type": "application/json",
+              "Cache-Control": "public, max-age=30",
+            },
           });
         }
         const { status, data } = await fetchCached(
