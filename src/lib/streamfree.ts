@@ -15,7 +15,8 @@ export const streamSchema = z.object({
   viewers: z.number().optional().nullable(),
   is_external: z.boolean().optional().nullable(),
   thumbnail_url: z.string().optional().nullable(),
-  embed_url: z.string(),
+  embed_url: z.string().default(""),
+  sources: z.array(z.string()).optional().default([]),
   team1: teamSchema.optional().nullable(),
   team2: teamSchema.optional().nullable(),
 });
