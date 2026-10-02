@@ -22,7 +22,15 @@ export const Route = createFileRoute("/api/streams/$key")({
           });
         }
         const channel = getLinearChannel(key);
-        if (channel) {
+        const { status, data } = await fetchCached(
+          `/streams/${encodeURIComponent(key)}`,
+          30,
+        );
+        const upstreamHasStream =
+          typeof data === "object" &&
+          data !== null &&
+          typeof (data as { stream_key?: unknown }).stream_key === "string";
+        if (channel && !upstreamHasStream) {
           return new Response(JSON.stringify(channel), {
             status: 200,
             headers: {
@@ -31,10 +39,6 @@ export const Route = createFileRoute("/api/streams/$key")({
             },
           });
         }
-        const { status, data } = await fetchCached(
-          `/streams/${encodeURIComponent(key)}`,
-          30,
-        );
         return new Response(JSON.stringify(data), {
           status,
           headers: {
