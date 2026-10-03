@@ -9,43 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as RecentRouteImport } from './routes/recent'
-import { Route as ProfileRouteImport } from './routes/profile'
-import { Route as MoviesRouteImport } from './routes/movies'
-import { Route as FavoritesRouteImport } from './routes/favorites'
-import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CategoryCategoryRouteImport } from './routes/category.$category'
-import { Route as ApiStreamsRouteImport } from './routes/api/streams'
+import { Route as BrowseRouteImport } from './routes/browse'
+import { Route as FavoritesRouteImport } from './routes/favorites'
+import { Route as MoviesRouteImport } from './routes/movies'
+import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as RecentRouteImport } from './routes/recent'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as ApiCategoriesRouteImport } from './routes/api/categories'
-import { Route as LiveCategoryStreamKeyRouteImport } from './routes/live.$category.$streamKey'
-import { Route as ApiStreamsKeyRouteImport } from './routes/api/streams.$key'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
+import { Route as ApiStreamsRouteImport } from './routes/api/streams'
+import { Route as CategoryCategoryRouteImport } from './routes/category.$category'
 import { Route as ApiNetmirrorPreviewRouteImport } from './routes/api/netmirror.preview'
+import { Route as ApiStreamsKeyRouteImport } from './routes/api/streams.$key'
+import { Route as LiveCategoryStreamKeyRouteImport } from './routes/live.$category.$streamKey'
 
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RecentRoute = RecentRouteImport.update({
-  id: '/recent',
-  path: '/recent',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProfileRoute = ProfileRouteImport.update({
-  id: '/profile',
-  path: '/profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MoviesRoute = MoviesRouteImport.update({
-  id: '/movies',
-  path: '/movies',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const FavoritesRoute = FavoritesRouteImport.update({
-  id: '/favorites',
-  path: '/favorites',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BrowseRoute = BrowseRouteImport.update({
@@ -53,19 +34,29 @@ const BrowseRoute = BrowseRouteImport.update({
   path: '/browse',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const FavoritesRoute = FavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CategoryCategoryRoute = CategoryCategoryRouteImport.update({
-  id: '/category/$category',
-  path: '/category/$category',
+const MoviesRoute = MoviesRouteImport.update({
+  id: '/movies',
+  path: '/movies',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ApiStreamsRoute = ApiStreamsRouteImport.update({
-  id: '/api/streams',
-  path: '/api/streams',
+const ProfileRoute = ProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecentRoute = RecentRouteImport.update({
+  id: '/recent',
+  path: '/recent',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiCategoriesRoute = ApiCategoriesRouteImport.update({
@@ -73,9 +64,24 @@ const ApiCategoriesRoute = ApiCategoriesRouteImport.update({
   path: '/api/categories',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LiveCategoryStreamKeyRoute = LiveCategoryStreamKeyRouteImport.update({
-  id: '/live/$category/$streamKey',
-  path: '/live/$category/$streamKey',
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiStreamsRoute = ApiStreamsRouteImport.update({
+  id: '/api/streams',
+  path: '/api/streams',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoryCategoryRoute = CategoryCategoryRouteImport.update({
+  id: '/category/$category',
+  path: '/category/$category',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiNetmirrorPreviewRoute = ApiNetmirrorPreviewRouteImport.update({
+  id: '/api/netmirror/preview',
+  path: '/api/netmirror/preview',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiStreamsKeyRoute = ApiStreamsKeyRouteImport.update({
@@ -83,9 +89,9 @@ const ApiStreamsKeyRoute = ApiStreamsKeyRouteImport.update({
   path: '/$key',
   getParentRoute: () => ApiStreamsRoute,
 } as any)
-const ApiNetmirrorPreviewRoute = ApiNetmirrorPreviewRouteImport.update({
-  id: '/api/netmirror/preview',
-  path: '/api/netmirror/preview',
+const LiveCategoryStreamKeyRoute = LiveCategoryStreamKeyRouteImport.update({
+  id: '/live/$category/$streamKey',
+  path: '/live/$category/$streamKey',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -98,6 +104,7 @@ export interface FileRoutesByFullPath {
   '/recent': typeof RecentRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/categories': typeof ApiCategoriesRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/streams': typeof ApiStreamsRouteWithChildren
   '/category/$category': typeof CategoryCategoryRoute
   '/api/netmirror/preview': typeof ApiNetmirrorPreviewRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/recent': typeof RecentRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/categories': typeof ApiCategoriesRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/streams': typeof ApiStreamsRouteWithChildren
   '/category/$category': typeof CategoryCategoryRoute
   '/api/netmirror/preview': typeof ApiNetmirrorPreviewRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/recent': typeof RecentRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/api/categories': typeof ApiCategoriesRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/streams': typeof ApiStreamsRouteWithChildren
   '/category/$category': typeof CategoryCategoryRoute
   '/api/netmirror/preview': typeof ApiNetmirrorPreviewRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/recent'
     | '/sitemap.xml'
     | '/api/categories'
+    | '/api/chat'
     | '/api/streams'
     | '/category/$category'
     | '/api/netmirror/preview'
@@ -161,6 +171,7 @@ export interface FileRouteTypes {
     | '/recent'
     | '/sitemap.xml'
     | '/api/categories'
+    | '/api/chat'
     | '/api/streams'
     | '/category/$category'
     | '/api/netmirror/preview'
@@ -176,6 +187,7 @@ export interface FileRouteTypes {
     | '/recent'
     | '/sitemap.xml'
     | '/api/categories'
+    | '/api/chat'
     | '/api/streams'
     | '/category/$category'
     | '/api/netmirror/preview'
@@ -192,6 +204,7 @@ export interface RootRouteChildren {
   RecentRoute: typeof RecentRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiCategoriesRoute: typeof ApiCategoriesRoute
+  ApiChatRoute: typeof ApiChatRoute
   ApiStreamsRoute: typeof ApiStreamsRouteWithChildren
   CategoryCategoryRoute: typeof CategoryCategoryRoute
   ApiNetmirrorPreviewRoute: typeof ApiNetmirrorPreviewRoute
@@ -200,39 +213,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/recent': {
-      id: '/recent'
-      path: '/recent'
-      fullPath: '/recent'
-      preLoaderRoute: typeof RecentRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/profile': {
-      id: '/profile'
-      path: '/profile'
-      fullPath: '/profile'
-      preLoaderRoute: typeof ProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/movies': {
-      id: '/movies'
-      path: '/movies'
-      fullPath: '/movies'
-      preLoaderRoute: typeof MoviesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/favorites': {
-      id: '/favorites'
-      path: '/favorites'
-      fullPath: '/favorites'
-      preLoaderRoute: typeof FavoritesRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/browse': {
@@ -242,25 +227,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BrowseRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/favorites': {
+      id: '/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof FavoritesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/category/$category': {
-      id: '/category/$category'
-      path: '/category/$category'
-      fullPath: '/category/$category'
-      preLoaderRoute: typeof CategoryCategoryRouteImport
+    '/movies': {
+      id: '/movies'
+      path: '/movies'
+      fullPath: '/movies'
+      preLoaderRoute: typeof MoviesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/api/streams': {
-      id: '/api/streams'
-      path: '/api/streams'
-      fullPath: '/api/streams'
-      preLoaderRoute: typeof ApiStreamsRouteImport
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recent': {
+      id: '/recent'
+      path: '/recent'
+      fullPath: '/recent'
+      preLoaderRoute: typeof RecentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/categories': {
@@ -270,11 +269,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCategoriesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/live/$category/$streamKey': {
-      id: '/live/$category/$streamKey'
-      path: '/live/$category/$streamKey'
-      fullPath: '/live/$category/$streamKey'
-      preLoaderRoute: typeof LiveCategoryStreamKeyRouteImport
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/streams': {
+      id: '/api/streams'
+      path: '/api/streams'
+      fullPath: '/api/streams'
+      preLoaderRoute: typeof ApiStreamsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$category': {
+      id: '/category/$category'
+      path: '/category/$category'
+      fullPath: '/category/$category'
+      preLoaderRoute: typeof CategoryCategoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/netmirror/preview': {
+      id: '/api/netmirror/preview'
+      path: '/api/netmirror/preview'
+      fullPath: '/api/netmirror/preview'
+      preLoaderRoute: typeof ApiNetmirrorPreviewRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/streams/$key': {
@@ -284,11 +304,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiStreamsKeyRouteImport
       parentRoute: typeof ApiStreamsRoute
     }
-    '/api/netmirror/preview': {
-      id: '/api/netmirror/preview'
-      path: '/api/netmirror/preview'
-      fullPath: '/api/netmirror/preview'
-      preLoaderRoute: typeof ApiNetmirrorPreviewRouteImport
+    '/live/$category/$streamKey': {
+      id: '/live/$category/$streamKey'
+      path: '/live/$category/$streamKey'
+      fullPath: '/live/$category/$streamKey'
+      preLoaderRoute: typeof LiveCategoryStreamKeyRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -315,6 +335,7 @@ const rootRouteChildren: RootRouteChildren = {
   RecentRoute: RecentRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiCategoriesRoute: ApiCategoriesRoute,
+  ApiChatRoute: ApiChatRoute,
   ApiStreamsRoute: ApiStreamsRouteWithChildren,
   CategoryCategoryRoute: CategoryCategoryRoute,
   ApiNetmirrorPreviewRoute: ApiNetmirrorPreviewRoute,

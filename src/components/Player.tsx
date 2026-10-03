@@ -7,6 +7,7 @@ import { formatKickoff } from "@/lib/format";
 import { useFavorites } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
 import { CinematicLoader } from "@/components/CinematicLoader";
+import { StreamChat } from "@/components/StreamChat";
 
 export function Player({ stream }: { stream: Stream }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -161,6 +162,8 @@ export function Player({ stream }: { stream: Stream }) {
           </div>
         )}
       </div>
+
+      <StreamChat streamKey={stream.stream_key} />
     </div>
   );
 }
