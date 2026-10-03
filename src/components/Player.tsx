@@ -7,6 +7,7 @@ import { formatKickoff } from "@/lib/format";
 import { useFavorites } from "@/hooks/useLocalStorage";
 import { cn } from "@/lib/utils";
 import { CinematicLoader } from "@/components/CinematicLoader";
+import { SonyPopupNotice, StreamChat } from "@/components/StreamChat";
 
 export function Player({ stream }: { stream: Stream }) {
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -108,6 +109,8 @@ export function Player({ stream }: { stream: Stream }) {
         </div>
       </div>
 
+      {(stream.stream_key === "sony-ten-2" || stream.stream_key === "sony-ten-3") && <SonyPopupNotice />}
+
       <div className="flex flex-wrap items-center gap-2">
         <button onClick={fullscreen} className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/40 px-3.5 py-2 text-sm hover:bg-secondary" aria-label="Fullscreen (F)">
           <Maximize2 className="h-4 w-4" /> Fullscreen
@@ -161,6 +164,8 @@ export function Player({ stream }: { stream: Stream }) {
           </div>
         )}
       </div>
+
+      <StreamChat streamKey={stream.stream_key} />
     </div>
   );
 }
