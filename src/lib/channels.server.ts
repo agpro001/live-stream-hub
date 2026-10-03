@@ -24,7 +24,7 @@ export function getLinearChannel(key: string): Stream | undefined {
   return {
     id: channel.stream_key,
     name: channel.name,
-    category: "cricket",
+    category: "channel",
     league: null,
     stream_key: channel.stream_key,
     match_timestamp: Math.floor(Date.now() / 1000) - 60,
@@ -54,7 +54,8 @@ export function injectLinearChannels(data: unknown): unknown {
   const streams = [...payload.streams];
   const keys = new Set(
     streams.flatMap((stream) =>
-      typeof stream === "object" && stream !== null &&
+      typeof stream === "object" &&
+      stream !== null &&
       typeof (stream as { stream_key?: unknown }).stream_key === "string"
         ? [(stream as { stream_key: string }).stream_key]
         : [],
@@ -81,13 +82,13 @@ export function injectChannelCategories(data: unknown): unknown {
     data === null ||
     !Array.isArray((data as { categories?: unknown }).categories)
   ) {
-    return { categories: ["cricket"] };
+    return { categories: ["channel"] };
   }
 
   const payload = data as { categories: unknown[] };
   const categories = payload.categories.filter(
     (category): category is string => typeof category === "string",
   );
-  if (!categories.includes("cricket")) categories.push("cricket");
+  if (!categories.includes("channel")) categories.push("channel");
   return { ...payload, categories };
 }
